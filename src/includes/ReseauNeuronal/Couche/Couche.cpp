@@ -1,7 +1,7 @@
 #include "Couche.hpp"
 #include <random>
 
-kitsAI::Couche::Couche(int nb_neurones, double bias, std::function<double(double)> activation_function)
+kitsAI::Couche::Couche(int nb_neurones, double bias, std::function<double(double)> &activation_function)
 {
     // Générer des nombre aléatoires, c'est surtout du blabla
     std::random_device rd;

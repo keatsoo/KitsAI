@@ -12,7 +12,7 @@ namespace kitsAI
     class Couche
     {
     public:
-        Couche(int nb_neurones, double bias, std::function<double(double)> activation_function);
+        Couche(int nb_neurones, double bias, std::function<double(double)> &activation_function);
         ~Couche();
 
         /// @brief Calculer les sorties à l'aide des entrées
