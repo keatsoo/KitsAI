@@ -18,6 +18,8 @@ namespace kitsAI
         void backpropagate(std::vector<double> &inputs, std::vector<double> &outputs, double learning_rate);
         double activation_function(double x);
 
+        double activation_function_derivative(double x);
+
     private:
         std::vector<Couche> m_layers;
     };

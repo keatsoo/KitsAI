@@ -24,6 +24,15 @@ namespace kitsAI
         /// @return 
         std::vector<double> getWeights();
 
+        
+        /// @brief Mettre à jour les poids à l'aide des gradients et du taux d'apprentissage
+        /// @param gradient 
+        /// @param learning_rate 
+        /// @return 
+        void updateWeightWithGradient(std::vector<double> gradient, double learning_rate);
+
+        void updateBiasWithGradient(double gradient, double learning_rate);
+
     private:
         std::vector<Neurone> m_neurones;
         std::function<double(double)> a_func;

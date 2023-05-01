@@ -29,10 +29,10 @@ std::vector<double> kitsAI::Couche::calculate(std::vector<double> &inputs)
     std::vector<double> layerInput = inputs;
 
     // Pour chaque neurone, calculer le bias + la somme pondérée des entrées, puis l'ajouter a outputs après l'avoir calculée via la fonction d'activation
-    for (size_t loop_neuron = 0; loop_neuron < weights.size() - 1; loop_neuron++)
+    for (size_t loop_neuron = 0; loop_neuron < weights.size(); loop_neuron++)
     {
         double sum = b;
-        for (size_t loop_input = 0; loop_input < layerInput.size() - 1; loop_input++)
+        for (size_t loop_input = 0; loop_input < layerInput.size(); loop_input++)
         {
             sum += layerInput[loop_input] * weights[loop_neuron];
         }
@@ -45,9 +45,23 @@ std::vector<double> kitsAI::Couche::calculate(std::vector<double> &inputs)
 std::vector<double> kitsAI::Couche::getWeights()
 {
     std::vector<double> out_weights;
-    for (size_t i = 0; i < m_neurones.size() - 1; i++)
+    for (size_t i = 0; i < m_neurones.size(); i++)
     {
         out_weights.push_back(m_neurones[i].getWeight());
     }
     return out_weights;
+}
+
+void kitsAI::Couche::updateWeightWithGradient(std::vector<double> gradient, double learning_rate)
+{
+    for (size_t i = 0; i < m_neurones.size(); i++)
+    {
+        double grdt = m_neurones[i].getWeight() + learning_rate * gradient[i];
+        m_neurones[i].setWeight(grdt);
+    }
+}
+
+void kitsAI::Couche::updateBiasWithGradient(double gradient, double learning_rate)
+{
+    b += learning_rate * gradient;
 }
