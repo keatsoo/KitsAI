@@ -1,5 +1,6 @@
 #include "Couche.hpp"
 #include <random>
+#include <iostream>
 
 kitsAI::Couche::Couche(int nb_neurones, double bias, std::function<double(double)> &activation_function)
 {
@@ -58,6 +59,7 @@ void kitsAI::Couche::updateWeightWithGradient(std::vector<double> gradient, doub
     {
         double grdt = m_neurones[i].getWeight() + learning_rate * gradient[i];
         m_neurones[i].setWeight(grdt);
+        std::cout << "New weight: " << m_neurones[i].getWeight() << std::endl;
     }
 }
 

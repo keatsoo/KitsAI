@@ -34,13 +34,15 @@ int main()
         return 1;
     }
 
+    cout << "Je commence l'entrainement..." << endl;
+
     chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
 
     for (size_t i = 0; i < 10000; i++)
     {
         for (size_t j = 0; j < training_data.size(); j++)
         {
-            NN.backpropagate(training_data[j], expected_out_data[j], 0.2);
+            NN.backpropagate(training_data[j], expected_out_data[j], 0.5);
         }
         cout << "Itération numéro " << i << endl;
     }

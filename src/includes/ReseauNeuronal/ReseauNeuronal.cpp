@@ -1,6 +1,7 @@
 #include "ReseauNeuronal.hpp"
 #include <functional>
 #include <cmath>
+#include <iostream>
 
 kitsAI::ReseauNeuronal::ReseauNeuronal(std::vector<double> sizes)
 {
@@ -8,7 +9,7 @@ kitsAI::ReseauNeuronal::ReseauNeuronal(std::vector<double> sizes)
     { return activation_function(value); };
     for (size_t i = 0; i < sizes.size(); i++)
     {
-        m_layers.push_back(Couche(sizes[i], 0.1, activation));
+        m_layers.push_back(Couche(sizes[i], 0.0, activation));
     }
 }
 
@@ -26,6 +27,7 @@ std::vector<double> kitsAI::ReseauNeuronal::think(std::vector<double> &inputs)
         outputs.clear();
         outputs = m_layers[i].calculate(layerInput);
         layerInput = outputs;
+        //std::cout << outputs[0] << std::endl;
     }
 
     return outputs;
@@ -37,6 +39,16 @@ void kitsAI::ReseauNeuronal::backpropagate(std::vector<double> &inputs, std::vec
     std::vector<std::vector<double>> weight_gr(m_layers.size()); // Weight gradient
     std::vector<double> bias_gr(m_layers.size(), 0.0);                // Bias gradient
     std::vector<double> out_errors;
+    for (size_t layer = 0; layer < weight_gr.size(); layer++)
+    {
+        for (size_t weight = 0; weight < m_layers[layer].getWeights().size(); weight++)
+        {
+            weight_gr[layer].push_back(0.0);
+        }
+        
+    }
+    
+
 
     // On va calculer l'erreur pour chaque output
     for (size_t i = 0; i < outputs.size(); i++)
@@ -47,7 +59,7 @@ void kitsAI::ReseauNeuronal::backpropagate(std::vector<double> &inputs, std::vec
 
     // Maintenant on va rétropropager
     // Pour chaque couche...
-    for (size_t i = m_layers.size() - 1; i >= 0; --i)
+    for (size_t i = m_layers.size() - 1; i > 0; i--)
     {
         std::vector<double> currentLayerGradients;
         std::vector<double> currentLayerWeights = m_layers[i].getWeights();
@@ -60,6 +72,7 @@ void kitsAI::ReseauNeuronal::backpropagate(std::vector<double> &inputs, std::vec
             // On calcule la dérivée de l'erreur par rapport a chaque poids
             for (size_t k = 0; k < prediction.size(); k++)
             {
+                //std::cout << "Prediction[" << k << "]: " << prediction[k] << " so weight_gr["<<i<<"]["<<j<<"] = " << neuron_gr * prediction[k] << " cuz weight_gr["<<i<<"].size = " << weight_gr[i].size() << std::endl;
                 weight_gr[i][j] += neuron_gr * prediction[k];
             }
             
